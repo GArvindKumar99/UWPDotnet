@@ -1,0 +1,52 @@
+﻿<UserControl
+    x:Class="SnapBilling.PushOffers.PreviousOffers"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" xmlns:telerikGrid="using:Telerik.UI.Xaml.Controls.Grid" xmlns:appservices="using:SnapBilling.Services.AppServices"
+    mc:Ignorable="d"
+    d:DesignHeight="300"
+    d:DesignWidth="400">
+
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="8*" />
+            <RowDefinition Height="Auto" />
+        </Grid.RowDefinitions>
+        <StackPanel Grid.Row="0" Orientation="Horizontal">
+            <DatePicker x:Name="FromDate" Header="{appservices:Lang TextValue=valid_from}"
+                                        Margin="10,10,10,0" HorizontalAlignment="Stretch" Width="Auto"
+                                        Date="{x:Bind VM.FromDate, Mode=TwoWay}" />
+            <DatePicker x:Name="ToDate" Header="{appservices:Lang TextValue=valid_to}"
+                                        Margin="10,10,10,0" HorizontalAlignment="Stretch" Width="Auto"
+                                        Date="{x:Bind VM.ToDate, Mode=TwoWay}" />
+            <Button Margin="10,35,10,0" Content="View" Background="#1D6F42" Foreground="White" Width="70"
+                     Command="{x:Bind VM.View}" />
+        </StackPanel>
+        <telerikGrid:RadDataGrid Grid.Row="1" x:Name="CustomerList" HorizontalAlignment="Left"
+                                     ItemsSource="{x:Bind VM.PushOffersIncrementalCollection, Mode=TwoWay}"
+                                     SelectedItem="{x:Bind VM.SelectedOffer, Mode=TwoWay}"
+                                                 AutoGenerateColumns="False" BorderBrush="LightGray"
+                                                SelectionUnit="Row" ColumnDataOperationsMode="Inline"
+                                                BorderThickness="0" Margin="10,10,20,0"
+                                                CanBeScrollAnchor="False" GridLinesVisibility="Both"
+                                                 Foreground="Black"
+                                                UserGroupMode="Disabled" SelectionMode="Single"
+                                                UserFilterMode="Enabled" UserColumnReorderMode="None" Width="Auto"
+                                                IncrementalLoadingMode="Explicit">
+            <telerikGrid:RadDataGrid.Columns>
+                <telerikGrid:DataGridTextColumn Header="{appservices:Lang TextValue=message}" PropertyName="Message" SizeMode="Stretch" />
+                <telerikGrid:DataGridDateColumn Header="{appservices:Lang TextValue=send_on}" PropertyName="SentOn" SizeMode="Stretch" />
+            </telerikGrid:RadDataGrid.Columns>
+        </telerikGrid:RadDataGrid>
+        <StackPanel Orientation="Vertical" Grid.Row="2">
+            <TextBlock Margin="10,10,10,0" Text="{appservices:Lang TextValue=offer_message}" FontSize="20"/>
+            <TextBox Margin="10,10,10,20" Text="{x:Bind VM.PushOfferMessage, Mode=TwoWay}"
+                     AcceptsReturn="True" IsEnabled="False" HorizontalAlignment="Stretch" TextWrapping="Wrap"
+                     ScrollViewer.VerticalScrollBarVisibility="Auto" Height="100" Width="Auto"
+                     BorderThickness="1" />
+            
+        </StackPanel>
+    </Grid>
+</UserControl>
